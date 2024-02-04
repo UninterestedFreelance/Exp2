@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_tracker/models/expense_item.dart';
+import 'package:money_tracker/utils/widgets/dialog_box.dart';
 import 'package:money_tracker/views/individual_transaction_list.dart';
 import 'package:money_tracker/views/new_transactions.dart';
 
@@ -45,7 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
+    // showDialogBox(context, NewTransaction(_addNewTransaction));
     showModalBottomSheet(
+      isScrollControlled: true,
       context: ctx,
       builder: (_) {
         return GestureDetector(
@@ -80,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         shadowColor: Colors.black,
         title: Text(
-          "Expanse Tracker",
+          "Expense Tracker",
           style: TextStyle(color: Colors.green),
         ),
       ),

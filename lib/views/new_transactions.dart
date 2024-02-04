@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
@@ -99,7 +100,7 @@ class _NewTransactionState extends State<NewTransaction> {
       child: Container(
         padding: EdgeInsets.only(
           top: 10,
-          left: 10,
+          left: 20,
           right: 10,
           bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         ),
@@ -107,8 +108,9 @@ class _NewTransactionState extends State<NewTransaction> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             TextField(
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: InputDecoration(labelText: 'Name'),
               controller: _titleController,
+              textInputAction: TextInputAction.next,
               onSubmitted: (_) => _submitData(),
             ),
             TextField(

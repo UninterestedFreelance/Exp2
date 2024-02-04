@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:money_tracker/models/expense_item.dart';
 import 'package:money_tracker/views/edit_screen.dart';
 
@@ -17,23 +18,21 @@ class IndividualTransactionList extends StatelessWidget {
         ? LayoutBuilder(builder: (ctx, constraints) {
             return Column(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 28.0),
-                  child: Text(
-                    'No transactions added yet!',
-                    style: TextStyle(color: Colors.black54),
-                  ),
+                Text(
+                  'No transactions added yet!',
+                  style: TextStyle(color: Colors.black54),
                 ),
-                SizedBox(
-                  height: 40,
-                ),
-                SizedBox(
-                  height: constraints.maxHeight * 0.6,
-                  child: Image.asset(
-                    'assets/185019.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
+
+                Expanded(
+                  child: Lottie.asset('assets/money_adding.json'),
+                )
+                // SizedBox(
+                //   height: constraints.maxHeight * 0.6,
+                //   child: Image.asset(
+                //     'assets/185019.png',
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
               ],
             );
           })
