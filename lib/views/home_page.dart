@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<ExpanseItems> _userTransactions = [
+  final List<ExpanseItems> _userTransactions = [
     // Transaction(
     //   id: 't1',
     //   title: 'New Shoes',
@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //   date: DateTime.now(),
     // ),
   ];
+//unused elements
 
   List<ExpanseItems> get _recentTransactions {
     return _userTransactions.where((tx) {
@@ -53,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: NewTransaction(_addNewTransaction),
           behavior: HitTestBehavior.opaque,
+          child: NewTransaction(_addNewTransaction),
         );
       },
     );
@@ -82,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         centerTitle: true,
         shadowColor: Colors.black,
-        title: Text(
+        title: const Text(
           "Expense Tracker",
           style: TextStyle(color: Colors.green),
         ),
@@ -100,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           _startAddNewTransaction(context);
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.green,
         ),

@@ -9,8 +9,8 @@ class IndividualTransactionList extends StatelessWidget {
   final Function deleteTx;
   final Function(String, String, double, DateTime) updateTransaction;
 
-  IndividualTransactionList(
-      this.transactions, this.deleteTx, this.updateTransaction);
+  const IndividualTransactionList(
+      this.transactions, this.deleteTx, this.updateTransaction, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class IndividualTransactionList extends StatelessWidget {
         ? LayoutBuilder(builder: (ctx, constraints) {
             return Column(
               children: <Widget>[
-                Text(
+                const Text(
                   'No transactions added yet!',
                   style: TextStyle(color: Colors.black54),
                 ),
@@ -40,8 +40,8 @@ class IndividualTransactionList extends StatelessWidget {
             itemBuilder: (ctx, index) {
               return Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 28.0, right: 28),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 28.0, right: 28),
                     child: Divider(),
                   ),
                   GestureDetector(
@@ -49,7 +49,7 @@ class IndividualTransactionList extends StatelessWidget {
                       leading: CircleAvatar(
                         radius: 30,
                         child: Padding(
-                          padding: EdgeInsets.all(6),
+                          padding: const EdgeInsets.all(6),
                           child: FittedBox(
                             child: Text('\Rs ${transactions[index].amount}'),
                           ),
@@ -65,7 +65,7 @@ class IndividualTransactionList extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           IconButton(
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                               color: Theme.of(context).colorScheme.primary,
                               onPressed: () {
                                 Navigator.push(
@@ -80,14 +80,14 @@ class IndividualTransactionList extends StatelessWidget {
                               }),
                           if (MediaQuery.of(context).size.width > 460)
                             ElevatedButton.icon(
-                              icon: Icon(Icons.delete),
-                              label: Text('Delete'),
+                              icon: const Icon(Icons.delete),
+                              label: const Text('Delete'),
                               style: ElevatedButton.styleFrom(),
                               onPressed: () => deleteTx(transactions[index].id),
                             )
                           else
                             IconButton(
-                              icon: Icon(Icons.delete),
+                              icon: const Icon(Icons.delete),
                               color: Theme.of(context).colorScheme.error,
                               onPressed: () => deleteTx(transactions[index].id),
                             ),
