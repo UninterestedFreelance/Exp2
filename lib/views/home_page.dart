@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:money_tracker/models/expense_item.dart';
 import 'package:money_tracker/utils/widgets/dialog_box.dart';
 import 'package:money_tracker/views/individual_transaction_list.dart';
@@ -41,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     setState(() {
-      //sample commit sabiq
       _userTransactions.add(newTx);
     });
   }
@@ -98,13 +98,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         focusColor: Colors.green,
+        backgroundColor: Color(0xff85BB65),
         onPressed: () {
           _startAddNewTransaction(context);
         },
-        child: Icon(
-          Icons.add,
-          color: Colors.green,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Lottie.asset('assets/add_lottie.json'),
         ),
+        // child: Icon(
+        //   Icons.add,
+        //   color: Colors.green,
+        // ),
       ),
     );
   }

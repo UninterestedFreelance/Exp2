@@ -49,6 +49,7 @@ class _EditTransactionState extends State<EditTransaction> {
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -77,47 +78,59 @@ class _EditTransactionState extends State<EditTransaction> {
     return Scaffold(
       body: GestureDetector(
         onTap: () {},
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                TextField(
-                  controller: _titleController,
-                  decoration: InputDecoration(labelText: 'Title'),
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                ),
-                TextField(
-                  controller: _amountController,
-                  decoration: InputDecoration(labelText: 'Amount'),
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                ),
-                Text(
-                  'Selected Date',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                GestureDetector(
-                  onTap: _selectDate,
-                  child: Text(
-                    DateFormat('dd-MM-yyyy').format(_selectedDate),
-                    style: TextStyle(fontSize: 16),
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Wrap(
+            children: [
+              Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      TextField(
+                        controller: _titleController,
+                        decoration: InputDecoration(labelText: 'Title'),
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                      ),
+                      TextField(
+                        controller: _amountController,
+                        decoration: InputDecoration(labelText: 'Amount'),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.015,
+                      ),
+                      Text(
+                        'Selected Date',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      GestureDetector(
+                        onTap: _selectDate,
+                        child: Text(
+                          DateFormat('dd-MM-yyyy').format(_selectedDate),
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton.icon(
+                        onPressed: _submitData,
+                        icon: Icon(Icons.save),
+                        label: Text('Save Changes'),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 10),
-                ElevatedButton.icon(
-                  onPressed: _submitData,
-                  icon: Icon(Icons.save),
-                  label: Text('Save Changes'),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         behavior: HitTestBehavior.opaque,
