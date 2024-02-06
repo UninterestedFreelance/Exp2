@@ -10,7 +10,8 @@ class IndividualTransactionList extends StatelessWidget {
   final Function(String, String, double, DateTime) updateTransaction;
 
   const IndividualTransactionList(
-      this.transactions, this.deleteTx, this.updateTransaction, {super.key});
+      this.transactions, this.deleteTx, this.updateTransaction,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class IndividualTransactionList extends StatelessWidget {
                 ),
 
                 Expanded(
-                  child: Lottie.asset('assets/money_adding.json'),
+                  child: Lottie.asset('assets/Animation - 1707116466584.json'),
                 )
                 // SizedBox(
                 //   height: constraints.maxHeight * 0.6,

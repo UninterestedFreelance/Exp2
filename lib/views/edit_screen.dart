@@ -6,7 +6,7 @@ class EditTransaction extends StatefulWidget {
   final ExpanseItems oldTx;
   final Function(String, String, double, DateTime) updateTransaction;
 
-  EditTransaction({
+  const EditTransaction({
     required this.oldTx,
     required this.updateTransaction,
   });
@@ -18,6 +18,7 @@ class EditTransaction extends StatefulWidget {
 class _EditTransactionState extends State<EditTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  final _selectdate = TextEditingController();
   DateTime _selectedDate = DateTime.now();
 
   @override
@@ -37,24 +38,11 @@ class _EditTransactionState extends State<EditTransaction> {
       updatedAmount,
       _selectedDate,
     );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Success'),
-          content: Text('Transaction updated successfully!'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Transaction updated successfully!')),
     );
+
+    Navigator.of(context).pop();
   }
 
   void _selectDate() async {
@@ -74,53 +62,91 @@ class _EditTransactionState extends State<EditTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () {},
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                TextField(
-                  controller: _titleController,
-                  decoration: InputDecoration(labelText: 'Title'),
-                  onChanged: (value) {
-                    setState(() {});
-                  },
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Container(
+        height: 320,
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(labelText: 'Title'),
+                onChanged: (value) {
+                  setState(() {});
+                },
+              ),
+              TextField(
+                controller: _amountController,
+                decoration: InputDecoration(labelText: 'Amount'),
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  setState(() {});
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                child: Row(
+                  children: [
+                    Icon(Icons.calendar_today),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Selected Date',
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 16,
+                                color: Colors.red),
+                          ),
+                          Text(
+                            DateFormat('dd-MM-yyyy').format(_selectedDate),
+                            style: TextStyle(fontSize: 14, color: Colors.red),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                TextField(
-                  controller: _amountController,
-                  decoration: InputDecoration(labelText: 'Amount'),
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                ),
-                Text(
-                  'Selected Date',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                GestureDetector(
-                  onTap: _selectDate,
-                  child: Text(
-                    DateFormat('dd-MM-yyyy').format(_selectedDate),
-                    style: TextStyle(fontSize: 16),
+                onTap: _selectDate,
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Center(
+                  child: OutlinedButton(
+                    child: Text(
+                      'SUBMIT',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.green),
+                    ),
+                    onPressed: _submitData,
                   ),
                 ),
-                SizedBox(height: 10),
-                ElevatedButton.icon(
-                  onPressed: _submitData,
-                  icon: Icon(Icons.save),
-                  label: Text('Save Changes'),
-                ),
-              ],
-            ),
+              )
+              // Padding(
+              //   padding: EdgeInsets.all(20),
+              //   child: ElevatedButton.icon(
+              //     onPressed: _submitData,
+              //     icon: Icon(Icons.save),
+              //     label: Text('Save Changes'),
+              //   ),
+              // ),
+            ],
           ),
         ),
-        behavior: HitTestBehavior.opaque,
       ),
     );
   }
