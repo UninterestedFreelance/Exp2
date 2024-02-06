@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:money_tracker/models/expense_item.dart';
-import 'package:money_tracker/utils/widgets/dialog_box.dart';
 import 'package:money_tracker/views/individual_transaction_list.dart';
 import 'package:money_tracker/views/new_transactions.dart';
 
