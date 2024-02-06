@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-  NewTransaction(this.addTx);
+  const NewTransaction(this.addTx, {super.key});
 
   @override
   _NewTransactionState createState() => _NewTransactionState();
@@ -39,12 +39,13 @@ class _NewTransactionState extends State<NewTransaction> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Success'),
-            content: Text('New transaction added successfully!'),
+            title: const Text('Success'),
+            content: const Text('New transaction added successfully!'),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
+                  Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 },
               ),
@@ -58,11 +59,11 @@ class _NewTransactionState extends State<NewTransaction> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('An error occurred while adding the transaction.'),
+            title: const Text('Error'),
+            content: const Text('An error occurred while adding the transaction.'),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -108,18 +109,18 @@ class _NewTransactionState extends State<NewTransaction> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             TextField(
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
               controller: _titleController,
               textInputAction: TextInputAction.next,
               onSubmitted: (_) => _submitData(),
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
+              decoration: const InputDecoration(labelText: 'Amount'),
               controller: _amountController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => _submitData(),
             ),
-            Container(
+            SizedBox(
               height: 70,
               child: Row(
                 children: <Widget>[
@@ -128,21 +129,21 @@ class _NewTransactionState extends State<NewTransaction> {
                       _selectedDate == null
                           ? 'No Date Chosen!'
                           : 'Picked Date: ${DateFormat('dd-MM-yyyy').format(_selectedDate!)}',
-                      style: TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Colors.red),
                     ),
                   ),
                   TextButton(
                     onPressed: _presentDatePicker,
-                    child: Text(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    child: const Text(
                       'Choose Date',
                       style: TextStyle(
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
@@ -151,7 +152,6 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             ElevatedButton(
               onPressed: _submitData,
-              child: Text('Add Transaction'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                   Theme.of(context).primaryColor,
@@ -160,6 +160,7 @@ class _NewTransactionState extends State<NewTransaction> {
                   Theme.of(context).textTheme.bodyLarge!.color!,
                 ),
               ),
+              child: const Text('Add Transaction'),
             ),
           ],
         ),

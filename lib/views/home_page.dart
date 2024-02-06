@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:money_tracker/models/expense_item.dart';
-import 'package:money_tracker/utils/widgets/dialog_box.dart';
 import 'package:money_tracker/views/individual_transaction_list.dart';
 import 'package:money_tracker/views/new_transactions.dart';
 
@@ -10,7 +9,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<ExpanseItems> _userTransactions = [
+  final List<ExpanseItems> _userTransactions = [
     // Transaction(
     //   id: 't1',
     //   title: 'New Shoes',
@@ -24,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //   date: DateTime.now(),
     // ),
   ];
+//unused elements
 
   List<ExpanseItems> get _recentTransactions {
     return _userTransactions.where((tx) {
@@ -53,8 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: NewTransaction(_addNewTransaction),
           behavior: HitTestBehavior.opaque,
+          child: NewTransaction(_addNewTransaction),
         );
       },
     );
@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         centerTitle: true,
         shadowColor: Colors.black,
-        title: Text(
+        title: const Text(
           "Expense Tracker",
           style: TextStyle(color: Colors.green),
         ),
@@ -97,13 +97,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         focusColor: Colors.green,
+        backgroundColor: Color(0xff85BB65),
         onPressed: () {
           _startAddNewTransaction(context);
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.green,
         ),
+        // child: Icon(
+        //   Icons.add,
+        //   color: Colors.green,
+        // ),
       ),
     );
   }
