@@ -46,6 +46,7 @@ class _NewTransactionState extends State<NewTransaction> {
                 child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
               ),
             ],

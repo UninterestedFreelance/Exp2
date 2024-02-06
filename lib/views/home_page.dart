@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:money_tracker/models/expense_item.dart';
 import 'package:money_tracker/utils/widgets/dialog_box.dart';
 import 'package:money_tracker/views/individual_transaction_list.dart';
@@ -98,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         focusColor: Colors.green,
+        backgroundColor: Color(0xff85BB65),
         onPressed: () {
           _startAddNewTransaction(context);
         },
@@ -105,6 +107,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Icons.add,
           color: Colors.green,
         ),
+        // child: Icon(
+        //   Icons.add,
+        //   color: Colors.green,
+        // ),
       ),
     );
   }
