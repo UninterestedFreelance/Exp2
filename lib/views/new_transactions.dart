@@ -20,6 +20,7 @@ class _NewTransactionState extends State<NewTransaction> {
     if (_amountController.text.isEmpty) {
       return;
     }
+
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
@@ -109,6 +110,7 @@ class _NewTransactionState extends State<NewTransaction> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             TextField(
+              textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(labelText: 'Name'),
               controller: _titleController,
               textInputAction: TextInputAction.next,
