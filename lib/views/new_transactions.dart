@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:money_tracker/utils/widgets/toast_message.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -14,6 +15,7 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  final _descriptionController = TextEditingController();
   DateTime? _selectedDate;
 
   void _submitData() {
@@ -23,6 +25,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
+    final enteredDescription = _descriptionController.text;
 
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
@@ -30,30 +33,32 @@ class _NewTransactionState extends State<NewTransaction> {
 
     try {
       widget.addTx(
-        enteredTitle,
-        enteredAmount,
-        _selectedDate,
+          enteredTitle, enteredAmount, _selectedDate, enteredDescription);
+      Navigator.pop(context);
+      showToast(
+        message: 'New transaction added successfully!',
+        color: Color(0xff85BB65),
       );
 
       // Show success pop-up
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Success'),
-            content: Text('New transaction added successfully!'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      // showDialog(
+      //   context: context,
+      //   builder: (BuildContext context) {
+      //     return AlertDialog(
+      //       title: Text('Success'),
+      //       content: Text('New transaction added successfully!'),
+      //       actions: <Widget>[
+      //         TextButton(
+      //           child: Text('OK'),
+      //           onPressed: () {
+      //             Navigator.of(context).pop();
+      //             Navigator.of(context).pop();
+      //           },
+      //         ),
+      //       ],
+      //     );
+      //   },
+      // );
     } catch (e) {
       // Show error pop-up
       showDialog(
@@ -77,6 +82,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
     _titleController.clear();
     _amountController.clear();
+    _descriptionController.clear();
   }
 
   void _presentDatePicker() {
@@ -114,13 +120,21 @@ class _NewTransactionState extends State<NewTransaction> {
               decoration: InputDecoration(labelText: 'Name'),
               controller: _titleController,
               textInputAction: TextInputAction.next,
-              onSubmitted: (_) => _submitData(),
+              // onSubmitted: (_) => _submitData(),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: _amountController,
+              textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
+              // onSubmitted: (_) => _submitData(),
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Description'),
+              controller: _descriptionController,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
+              // onSubmitted: (_) => _submitData(),
             ),
             Container(
               height: 70,

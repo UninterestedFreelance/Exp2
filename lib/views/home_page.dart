@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  final _descriptionController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
 
   void _selectDate() async {
@@ -54,13 +55,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }).toList();
   }
 
-  void _addNewTransaction(
-      String txTitle, double txAmount, DateTime chosenDate) {
+  void _addNewTransaction(String txTitle, double txAmount, DateTime chosenDate,
+      String txtDescription) {
     final newTx = ExpanseItems(
       title: txTitle,
       amount: txAmount,
       date: chosenDate,
       id: DateTime.now().toString(),
+      description: txtDescription,
     );
 
     setState(() {
@@ -107,31 +109,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff85BB65),
         centerTitle: true,
         shadowColor: Colors.black,
         title: Text(
           "Expense Tracker",
-          style: TextStyle(color: Colors.green),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: _userTransactions.isEmpty
           ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Lottie.asset('assets/no_transaction_found.json'),
                 Text(
                   'No transactions added yet!',
                   style: TextStyle(color: Colors.black54),
-                ),
-
-                Expanded(
-                  child: Lottie.asset('assets/money_adding.json'),
                 )
-                // SizedBox(
-                //   height: constraints.maxHeight * 0.6,
-                //   child: Image.asset(
-                //     'assets/185019.png',
-                //     fit: BoxFit.cover,
-                //   ),
-                // ),
               ],
             )
           : ListView.builder(
@@ -142,129 +136,66 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       padding: const EdgeInsets.only(left: 28.0, right: 28),
                       child: Divider(),
                     ),
-                    ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        child: Text(
-                          _userTransactions[index].title[0],
-                          style: TextStyle(fontSize: 35),
+                    Theme(
+                      data: Theme.of(context)
+                          .copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        title: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Color(0xff85BB65),
+                            radius: 30,
+                            child: Text(
+                              _userTransactions[index].title[0],
+                              style:
+                                  TextStyle(fontSize: 35, color: Colors.white),
+                            ),
+                          ),
+                          title: Text(
+                            _userTransactions[index].title,
+                          ),
                         ),
-                      ),
-                      title: Text(
-                        _userTransactions[index].title,
-                      ),
-                      subtitle: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                                _userTransactions[index].amount.toString()),
-                          ),
-                          Text(
-                            DateFormat.yMMMd()
-                                .format(_userTransactions[index].date),
-                          ),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          IconButton(
-                              icon: Icon(Icons.edit),
-                              color: Theme.of(context).colorScheme.primary,
-                              onPressed: () {
-                                _titleController.text =
-                                    _userTransactions[index].title;
-                                _amountController.text =
-                                    _userTransactions[index].amount.toString();
-                                showDialogBox(
-                                  context,
-                                  AlertDialog(
-                                    content: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.3,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          TextFormField(
-                                            controller: _titleController,
-                                            decoration: InputDecoration(
-                                                labelText: 'Title'),
-                                            textInputAction:
-                                                TextInputAction.next,
-                                            onChanged: (value) {
-                                              setState(() {});
-                                            },
-                                          ),
-                                          TextFormField(
-                                            controller: _amountController,
-                                            decoration: InputDecoration(
-                                                labelText: 'Amount'),
-                                            keyboardType: TextInputType.number,
-                                            onChanged: (value) {
-                                              setState(() {});
-                                            },
-                                          ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.015,
-                                          ),
-                                          Text(
-                                            'Selected Date',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18),
-                                          ),
-                                          GestureDetector(
-                                            onTap: _selectDate,
-                                            child: Text(
-                                              DateFormat('dd-MM-yyyy')
-                                                  .format(_selectedDate),
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                          ),
-                                          SizedBox(height: 10),
-                                          ElevatedButton.icon(
-                                            onPressed: () {
-                                              setState(() {
-                                                _userTransactions[index].title =
-                                                    _titleController.text;
-                                                _userTransactions[index]
-                                                        .amount =
-                                                    double.parse(
-                                                        _amountController.text);
-                                              });
-
-                                              showToast(
-                                                  message:
-                                                      'Transaction updated successfully!');
-                                              Navigator.pop(context);
-                                            },
-                                            icon: Icon(Icons.save),
-                                            label: Text('Save Changes'),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                            padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width * 0.25,
+                                right: 20),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      "\₹${_userTransactions[index].amount.toString()}"),
+                                  Text(
+                                    DateFormat.yMMMd()
+                                        .format(_userTransactions[index].date),
                                   ),
-                                );
-                              }),
-                          if (MediaQuery.of(context).size.width > 460)
-                            ElevatedButton.icon(
-                              icon: Icon(Icons.delete),
-                              label: Text('Delete'),
-                              style: ElevatedButton.styleFrom(),
-                              onPressed: () {
-                                showDialogBox(
+                                  Text(_userTransactions[index].description),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            IconButton(
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.black,
+                                ),
+                                color: Theme.of(context).colorScheme.primary,
+                                onPressed: () {
+                                  _titleController.text =
+                                      _userTransactions[index].title;
+                                  _amountController.text =
+                                      _userTransactions[index]
+                                          .amount
+                                          .toString();
+                                  _descriptionController.text =
+                                      _userTransactions[index].description;
+                                  showDialogBox(
                                     context,
                                     AlertDialog(
                                       content: Container(
@@ -272,24 +203,83 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             MediaQuery.of(context).size.width,
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.3,
+                                                0.35,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
                                           children: [
+                                            TextFormField(
+                                              controller: _titleController,
+                                              decoration: InputDecoration(
+                                                  labelText: 'Title'),
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                              onChanged: (value) {
+                                                setState(() {});
+                                              },
+                                            ),
+                                            TextFormField(
+                                              controller: _amountController,
+                                              decoration: InputDecoration(
+                                                  labelText: 'Amount'),
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              onChanged: (value) {
+                                                setState(() {});
+                                              },
+                                            ),
+                                            TextFormField(
+                                              controller:
+                                                  _descriptionController,
+                                              decoration: InputDecoration(
+                                                  labelText: 'Description'),
+                                              keyboardType: TextInputType.text,
+                                              onChanged: (value) {
+                                                setState(() {});
+                                              },
+                                            ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.015,
+                                            ),
                                             Text(
-                                                'Are you sure you want to delete this transaction!'),
+                                              'Selected Date',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            ),
+                                            GestureDetector(
+                                              onTap: _selectDate,
+                                              child: Text(
+                                                DateFormat('dd-MM-yyyy')
+                                                    .format(_selectedDate),
+                                                style: TextStyle(fontSize: 16),
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
                                             ElevatedButton.icon(
                                               onPressed: () {
-                                                _userTransactions[index].title =
-                                                    _titleController.text;
-                                                _userTransactions[index]
-                                                        .amount =
-                                                    double.parse(
-                                                        _amountController.text);
+                                                setState(() {
+                                                  _userTransactions[index]
+                                                          .title =
+                                                      _titleController.text;
+                                                  _userTransactions[index]
+                                                          .amount =
+                                                      double.parse(
+                                                          _amountController
+                                                              .text);
+                                                  _userTransactions[index]
+                                                          .description =
+                                                      _descriptionController
+                                                          .text;
+                                                });
+
                                                 showToast(
+                                                    color: Color(0xff85BB65),
                                                     message:
                                                         'Transaction updated successfully!');
                                                 Navigator.pop(context);
@@ -300,49 +290,110 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           ],
                                         ),
                                       ),
-                                    ));
-                              },
-                              // onPressed: () => _deleteTransaction(
-                              //     _userTransactions[index].id),
-                            )
-                          else
-                            IconButton(
-                              icon: Icon(Icons.delete),
-                              color: Theme.of(context).colorScheme.error,
-                              onPressed: () {
-                                showDialogBox(
-                                    context,
-                                    AlertDialog(
-                                      title: Text(
-                                          'Are you sure you want to delete this transaction!'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _userTransactions.removeAt(index);
-                                              Navigator.pop(context);
-                                            });
-                                          },
-                                          child: Text(
-                                            'Yes',
-                                            style: TextStyle(color: Colors.red),
+                                    ),
+                                  );
+                                }),
+                            if (MediaQuery.of(context).size.width > 460)
+                              ElevatedButton.icon(
+                                icon: Icon(Icons.delete),
+                                label: Text('Delete'),
+                                style: ElevatedButton.styleFrom(),
+                                onPressed: () {
+                                  showDialogBox(
+                                      context,
+                                      AlertDialog(
+                                        content: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.3,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                  'Are you sure you want to delete this transaction!'),
+                                              ElevatedButton.icon(
+                                                onPressed: () {
+                                                  _userTransactions[index]
+                                                          .title =
+                                                      _titleController.text;
+                                                  _userTransactions[index]
+                                                          .amount =
+                                                      double.parse(
+                                                          _amountController
+                                                              .text);
+                                                  _userTransactions[index]
+                                                          .description =
+                                                      _descriptionController
+                                                          .text;
+                                                  showToast(
+                                                      color: Color(0xff85BB65),
+                                                      message:
+                                                          'Transaction updated successfully!');
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: Icon(Icons.save),
+                                                label: Text('Save Changes'),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            'No',
-                                            style:
-                                                TextStyle(color: Colors.green),
+                                      ));
+                                },
+                                // onPressed: () => _deleteTransaction(
+                                //     _userTransactions[index].id),
+                              )
+                            else
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                color: Theme.of(context).colorScheme.error,
+                                onPressed: () {
+                                  showDialogBox(
+                                      context,
+                                      AlertDialog(
+                                        title: Text(
+                                            'Are you sure you want to delete this transaction!'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _userTransactions
+                                                    .removeAt(index);
+                                                showToast(
+                                                  message:
+                                                      'Transaction deleted succesfully',
+                                                  color: Colors.red,
+                                                );
+                                                Navigator.pop(context);
+                                              });
+                                            },
+                                            child: Text(
+                                              'Yes',
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                            ),
                                           ),
-                                        )
-                                      ],
-                                    ));
-                              },
-                            ),
-                        ],
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              'No',
+                                              style: TextStyle(
+                                                  color: Colors.green),
+                                            ),
+                                          )
+                                        ],
+                                      ));
+                                },
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -351,19 +402,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               itemCount: _userTransactions.length,
             ),
       floatingActionButton: FloatingActionButton(
-        focusColor: Colors.green,
+        // focusColor: Colors.green,
         backgroundColor: Color(0xff85BB65),
         onPressed: () {
           _startAddNewTransaction(context);
         },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Lottie.asset('assets/add_lottie.json'),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
         ),
-        // child: Icon(
-        //   Icons.add,
-        //   color: Colors.green,
-        // ),
       ),
     );
   }

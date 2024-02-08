@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-showToast({required String message}) {
+showToast({required String message, required Color color}) {
   print('||||||||||||');
   Fluttertoast.showToast(
       msg: message,
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.green,
+      backgroundColor: color,
       textColor: Colors.white,
       fontSize: 16.0);
 }

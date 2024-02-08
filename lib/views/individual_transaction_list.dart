@@ -17,15 +17,13 @@ class IndividualTransactionList extends StatelessWidget {
     return transactions.isEmpty
         ? LayoutBuilder(builder: (ctx, constraints) {
             return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Lottie.asset('assets/no_transaction_found.json'),
                 Text(
                   'No transactions added yet!',
                   style: TextStyle(color: Colors.black54),
                 ),
-
-                Expanded(
-                  child: Lottie.asset('assets/money_adding.json'),
-                )
                 // SizedBox(
                 //   height: constraints.maxHeight * 0.6,
                 //   child: Image.asset(
